@@ -1,56 +1,61 @@
 <pre>
 console.show();
-var n= rawInput("请输入次数");
-log("等待10s");
-log("1-7=84,3-1=130")
-var sec=130
-for(let i = 0; i < 10; i++){
-    print(10 - i);
-    print("\n");
+log("请输入次数");
+var n = dialogs.input("请输入次数");
+n = n - 1
+var b = 0
+while (n >= b) {
+    b = b + 1
+}
+n = b
+log(n)
+
+log("3s");
+log("1-7=84,3-1=130,3-4=146")
+var sec = rawInput("请输入时间");
+log(sec)
+for (let i = 0; i < 3; i++) {
+    log(3 - i);
     sleep(1000);
 }
-setScreenMetrics(1520,720);
-var a =0
-var t=0
-do{
-log("开始行动");
-click(1350+random(1,500)/5,643+random(1,150)/5);
-sleep(4000+random(1,3000));
-log("再次点");
-click(1311+random(1,500)/5,420+random(1,400)/5);
-for(let i = 0; i < sec/2; i++){
-    print(i*2);
-    print("\n");
-    sleep(2000);
-}
-t=random(10,25);
-print("休息");
-print(t);
-print("秒");
-for(let i = 0; i < t/2; i++){
-    print(i*2);
-    print("\n");
-    sleep(2000);
-}
-a=a+1;
-print(a)
-print("次结束\n")
-if(!requestScreenCapture()){
-    toast("请求截图失败");
-}
-f1=random(0,32767)
-f2=random(0,32767)
-log(f1+f2+".png")
-sleep(random(100,379))
-var img = captureScreen();
-images.saveImage(img, "/sdcard/DCIM/arknights/"+f1+f2+".png");
+console.clear()
+var re
+var a = 0
+var t = 0
+while (n > a) {
+    re = (39 / 60 + sec / 60) * (n - a)
 
-sleep(2000+random(1,1000));
-click(1000+random(500,1000)/5,200+random(1,700)/5);
-sleep(random(30,70));
-click(1000+random(500,1000)/5,200+random(1,700)/5);
+    log("---")
+    log(re)
+    log(".1");
+    click(1300 + random(1, 400) / 5, 643 + random(1, 130) / 5);
+    sleep(4000 + random(1, 6000));
+    log(".2");
+    click(1194 + random(1, 400) / 5, 420 + random(1, 400) / 5);
+    i = 0
+    while (i < sec - 10) {
+        print(i);
+        sleep(10000);
+        i = i + 10
+    }
+    print(i)
+    sleep((sec - i) * 1000)
+    t = random(5, 35);
+    print("\n" + t);
+    print("秒\n");
+    for (let i = 0; i < t / 2; i++) {
+        print(i * 2);
+        sleep(2000);
+    }
+    console.clear()
 
-sleep(6000+random(1,2000));
-}while (n>a);
+    sleep(random(10, 1500))
+    a = a + 1;
+    print(a)
+    print("--.3\n")
+    sleep(2000 + random(1, 2000));
+    click(1000 + random(100, 1000) / 5, 200 + random(1, 700) / 5);
+    sleep(6584 + random(1, 2000));
+};
 log("结束");
   </pre>
