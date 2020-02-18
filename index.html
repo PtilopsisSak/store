@@ -1,8 +1,19 @@
 <html>
 <body background="img/bg.png">
+  <h1>
+  <a href="lrc/sino.html">忍びのすゝめ-まふまふ</a>
+  <br />
+  <a href="lrc/kano.html">彼女は旅に出る-鎖那</a>
+  <br />
+  <a href="lrc/kaga.html">鏡花水月-まふまふ</a>
+    </h1>
 <style>
 
 
+body {
+ cursor: url(img/cur.png), auto;
+}
+a:hover { cursor:url(img/cur.png),auto;}
 .message {
     position: fixed;
     width: 80%;
@@ -58,12 +69,55 @@ document.addEventListener('click', function (e) {
     circle2.tune({ x: e.pageX, y: e.pageY }).replay();
 });
 </script>
-<h1>
-<a href="/testpage/lrc/sino.html">忍びのすゝめ-まふまふ</a>
-<br />
-<a href="/testpage/lrc/kano.html">彼女は旅に出る-鎖那</a>
-<br />
-<a href="/testpage/lrc/kaga.html">鏡花水月-まふまふ</a>
-  </h1>
+<div id="Layer1" style="height: 100px; left: 67px; position: absolute; top: 35px; width: 100px;z-index:-3;">
+<canvas id="myCanvas" width="100" height="100">
+</canvas>
+</div>
+<script type="text/javascript">
+var le=30
+var mid=50
+var step=0.1
+var n=0
+var pi=Math.PI
+var an,bn
+var c=document.getElementById("myCanvas");
+var cxt=c.getContext("2d");
+cxt.lineWidth=3;
+cxt.lineJoin="round";
+function draw(){
+cxt.clearRect(0,0,300,300)
+cxt.beginPath();
+cxt.arc(mid,mid,1,0,Math.PI*2,true);
+cxt.closePath();
+cxt.stroke();
+cxt.beginPath();
+cxt.arc(mid,mid,le,0,Math.PI*2,true);
+cxt.closePath();
+cxt.stroke();
+for(a=0;a<2;a++){
+an=a*pi/3
+cxt.beginPath()
+cxt.moveTo(mid+le*Math.cos(an+n),mid+le*Math.sin(an+n));
+	for(b=0;b<3;b++){
+	bn=2*b*pi/3
+	cxt.lineTo(mid+le*Math.cos(an+bn+n),mid+le*Math.sin(an+bn+n));
+	}
+cxt.closePath()
+cxt.stroke();
+}
+n=step+n
+if (n>2*pi) {n=n-2*pi}
+setTimeout("draw()",15);
+}
+window.onload=draw
+
+//这是使图层移动的函数
+function move_layer(){
+Layer1.style.left=event.clientX+document.body.scrollLeft-mid;
+Layer1.style.top=event.clientY+document.body.scrollTop-mid;}
+//这里的意思是，如果鼠标移动时就调用"move_layer"函数
+document.onmousemove =move_layer;
+</script>
+
 </body>
 </html>
