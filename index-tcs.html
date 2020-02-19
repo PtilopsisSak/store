@@ -11,22 +11,24 @@
 <p id="score">请先吃一个来看长度</p>
 </div>
 <div style="left: 16px; position: absolute; top: 405px; height: 21px; width: 397px;" >
-<p id="score">方向键控制，z变速，也可以点上面的按钮,可穿墙</p>
+<p id="score">方向键控制，z变速，也可以点上面的按钮,可穿墙<br>
+<a href="https://blog.csdn.net/openn/article/details/9168861?utm_source=distribute.pc_relevant.none-task" title="63行代码完美实现html5 贪吃蛇游戏_数据库_蜗牛的精神-CSDN博客">原网站</a>，我做了些修改，更人性化
+</p>
 </div>
 
-<div style="left: 467px; position: absolute; top: 50px; width: auto; height: auto" >
+<div style="left: 467px; position: absolute; top: 50px;" >
 <button onclick="way(1)">↑</button>
 </div>
-<div style="left: 500px; position: absolute; top: 69px; width: auto; height: auto" >
+<div style="left: 500px; position: absolute; top: 69px;" >
 <button onclick="way(2)">→</button>
 </div>
-<div style="left: 467px; position: absolute; top: 88px; width: auto; height: auto" >
+<div style="left: 467px; position: absolute; top: 88px;" >
 <button onclick="way(3)">↓</button>
 </div>
-<div style="left: 433px; position: absolute; top: 68px; width: auto; height: auto" >
+<div style="left: 433px; position: absolute; top: 68px;" >
 <button onclick="way(0)">←</button>
 </div>
-<div style="left: 431px; position: absolute; top: 88px; width: auto; height: auto" >
+<div style="left: 431px; position: absolute; top: 88px;" >
 <button onclick="way(53)">变速</button>
 </div>
 
@@ -36,12 +38,13 @@ var cxt=c.getContext("2d");
 var c1=document.getElementById("myCanvas1");
 var cxt1=c1.getContext("2d");
 var time = 150 ; //蛇的速度
-var x = y = 8;
+var size = 10; //蛇身单元大小
+var x = y = size;
 var a = 0; //食物坐标
 var t = 20; //舍身长
 var map = []; //记录蛇运行路径
-var size = 8; //蛇身单元大小
 var direction = 2;   // 1 向上  2 向右   0 左   3下
+
 function set_game_speed(){   // 移动蛇
 	switch(direction){
 		case 1:y = y-size;break;
@@ -64,7 +67,11 @@ function set_game_speed(){   // 移动蛇
 	for(var i=0;i<map.length;i++){
 		if(  parseInt(map[i].x)==x && parseInt(map[i].y)==y){
 			//alert("你挂了，继续努力吧！失败原因：撞到自己了.....");
-			window.location.reload(); 
+			//window.location.reload(); 
+			t = 20
+			map = [];
+			cxt.clearRect(0,0,400,400);
+			document.getElementById("score").innerHTML = t;
 		}
 	}
 	if (map.length>t) {  //保持舍身长度
@@ -75,7 +82,7 @@ function set_game_speed(){   // 移动蛇
 	cxt.fillStyle = "#006699";//内部填充颜色
 	cxt.strokeStyle = "#006699";//边框颜色
 	cxt.fillRect(x, y, size, size);//绘制矩形
-	if((a*8)==x && (b*8)==y){  	//吃食物
+	if((a*size)==x && (b*size)==y){  	//吃食物
 	t++;
 	document.getElementById("score").innerHTML = t;
 		rand_frog();
@@ -123,12 +130,12 @@ function way(code) {  //改变蛇方向
 // 随机放置食物
 function rand_frog(){
 	
-	a = Math.ceil(Math.random()*48)+1;
-	b = Math.ceil(Math.random()*48)+1;
+	a = Math.ceil(Math.random()*(400/size-2))+1;
+	b = Math.ceil(Math.random()*(400/size-2))+1;
 	cxt1.clearRect(0,0,400,400);
-		cxt1.fillStyle = "#000000";//内部填充颜色
+	cxt1.fillStyle = "#000000";//内部填充颜色
 	cxt1.strokeStyle = "#000000";//边框颜色
-	cxt1.fillRect(a*8, b*8, 8, 8);//绘制矩形
+	cxt1.fillRect(a*size, b*size, size, size);//绘制矩形
 
 }
 rand_frog();
