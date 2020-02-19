@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+<div style="left: 10px; position: absolute; top: 10px;">
+<canvas id="myCanvas" width="400" height="400" style="border:1px solid #c3c3c3;"></canvas>
+</div>
+<div style="left: 10px; position: absolute; top: 10px;">
+<canvas id="myCanvas1" width="400" height="400" style="border:1px solid #c3c3c3;"></canvas>
+</div>
+<div style="left: 20px; position: absolute; top: 0px;" >
+<p id="score">请先吃一个来看长度</p>
+</div>
+<div style="left: 16px; position: absolute; top: 405px; height: 21px; width: 397px;" >
+<p id="score">方向键控制，z变速，也可以点上面的按钮,可穿墙</p>
+</div>
+
+<div style="left: 467px; position: absolute; top: 50px; width: auto; height: auto" >
+<button onclick="way(1)">↑</button>
+</div>
+<div style="left: 500px; position: absolute; top: 69px; width: auto; height: auto" >
+<button onclick="way(2)">→</button>
+</div>
+<div style="left: 467px; position: absolute; top: 88px; width: auto; height: auto" >
+<button onclick="way(3)">↓</button>
+</div>
+<div style="left: 433px; position: absolute; top: 68px; width: auto; height: auto" >
+<button onclick="way(0)">←</button>
+</div>
+<div style="left: 431px; position: absolute; top: 88px; width: auto; height: auto" >
+<button onclick="way(53)">变速</button>
+</div>
+
+<script>
+var c=document.getElementById("myCanvas");
+var cxt=c.getContext("2d");
+var c1=document.getElementById("myCanvas1");
+var cxt1=c1.getContext("2d");
+var time = 150 ; //蛇的速度
+var x = y = 8;
+var a = 0; //食物坐标
+var t = 20; //舍身长
+var map = []; //记录蛇运行路径
+var size = 8; //蛇身单元大小
+var direction = 2;   // 1 向上  2 向右   0 左   3下
+function set_game_speed(){   // 移动蛇
+	switch(direction){
+		case 1:y = y-size;break;
+		case 2:x = x+size;break;
+		case 0:x = x-size;break;
+		case 3:y = y+size;break;
+	}
+	if(x>=400 ){
+    	x=x-400; 
+    }
+	if(y>=400 ){
+    	y=y-400; 
+    }
+	if(x<0 ){
+    	x=x+400; 
+    }
+	if(y<0){
+    	y=y+400; 
+    }
+	for(var i=0;i<map.length;i++){
+		if(  parseInt(map[i].x)==x && parseInt(map[i].y)==y){
+			//alert("你挂了，继续努力吧！失败原因：撞到自己了.....");
+			window.location.reload(); 
+		}
+	}
+	if (map.length>t) {  //保持舍身长度
+		var cl = map.shift();  //删除数组第一项，并且返回原元素
+		cxt.clearRect(cl['x'], cl['y'], size, size);
+	};
+    map.push({'x':x,'y':y});  //将数据添加到原数组尾部
+	cxt.fillStyle = "#006699";//内部填充颜色
+	cxt.strokeStyle = "#006699";//边框颜色
+	cxt.fillRect(x, y, size, size);//绘制矩形
+	if((a*8)==x && (b*8)==y){  	//吃食物
+	t++;
+	document.getElementById("score").innerHTML = t;
+		rand_frog();
+    }
+	setTimeout("set_game_speed()",time);
+
+}
+document.onkeydown = function(e) {  //改变蛇方向
+	var code = e.keyCode - 37;
+	//alert(code)
+	switch(code){
+		case 1 : if (direction != 3 ){direction = 1};break;//上
+		case 2 : if (direction != 0 ){direction = 2};break;//右
+		case 3 : if (direction != 1 ){direction = 3};break;//下
+		case 0 : if (direction != 2 ){direction = 0};break;//左
+		case 53 : if (time == 150){
+		time=50;
+		}
+		else
+		{
+		time=150;
+		alert
+		};
+		break;
+	}
+}
+function way(code) {  //改变蛇方向
+	switch(code){
+		case 1 : if (direction != 3 ){direction = 1};break;//上
+		case 2 : if (direction != 0 ){direction = 2};break;//右
+		case 3 : if (direction != 1 ){direction = 3};break;//下
+		case 0 : if (direction != 2 ){direction = 0};break;//左
+		case 53 : if (time == 150){
+		time=50;
+		}
+		else
+		{
+		time=150;
+		alert
+		};
+		break;
+	}
+}
+
+// 随机放置食物
+function rand_frog(){
+	
+	a = Math.ceil(Math.random()*48)+1;
+	b = Math.ceil(Math.random()*48)+1;
+	cxt1.clearRect(0,0,400,400);
+		cxt1.fillStyle = "#000000";//内部填充颜色
+	cxt1.strokeStyle = "#000000";//边框颜色
+	cxt1.fillRect(a*8, b*8, 8, 8);//绘制矩形
+
+}
+rand_frog();
+
+window.onload=set_game_speed()
+document.getElementById("score").innerHTML = t;
+</script>
+</body>
+</html>
