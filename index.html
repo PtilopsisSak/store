@@ -1,14 +1,17 @@
 <html>
+<meta charset="utf-8">
 <body background="img/bg.png">
-  <h1>
-  <a href="lrc/sino.html">忍びのすゝめ-まふまふ</a>
-  <br />
-  <a href="lrc/kano.html">彼女は旅に出る-鎖那</a>
-  <br />
-  <a href="lrc/kaga.html">鏡花水月-まふまふ</a>
-    </h1>
-<style>
+  <h1><a href="lrc/sino.html">忍びのすゝめ-まふまふ</a></h1>
+  <h1><a href="lrc/kano.html">彼女は旅に出る-鎖那</a></h1>
+  <h1><a href="lrc/kaga.html">鏡花水月-まふまふ</a></h1>
 
+<style>
+h1 {
+    margin-block-start: 0.1em;
+    margin-block-end: 0.1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
 
 body {
  cursor: url(img/cur.png), auto;
@@ -74,18 +77,18 @@ document.addEventListener('click', function (e) {
 </canvas>
 </div>
 <script type="text/javascript">
-var le=30
-var mid=50
-var step=0.1
-var n=0
-var pi=Math.PI
-var an,bn
+var le=30;
+var mid=50;
+var step=0.1;
+var n=0;
+var pi=Math.PI;
+var an,bn;
 var c=document.getElementById("myCanvas");
 var cxt=c.getContext("2d");
 cxt.lineWidth=3;
 cxt.lineJoin="round";
 function draw(){
-cxt.clearRect(0,0,300,300)
+cxt.clearRect(0,0,300,300);
 cxt.beginPath();
 cxt.arc(mid,mid,1,0,Math.PI*2,true);
 cxt.closePath();
@@ -94,22 +97,22 @@ cxt.beginPath();
 cxt.arc(mid,mid,le,0,Math.PI*2,true);
 cxt.closePath();
 cxt.stroke();
-for(a=0;a<2;a++){
-an=a*pi/3
-cxt.beginPath()
+for(var a=0;a<2;a++){
+an=a*pi/3;
+cxt.beginPath();
 cxt.moveTo(mid+le*Math.cos(an+n),mid+le*Math.sin(an+n));
-	for(b=0;b<3;b++){
-	bn=2*b*pi/3
+	for(var b=0;b<3;b++){
+	bn=2*b*pi/3;
 	cxt.lineTo(mid+le*Math.cos(an+bn+n),mid+le*Math.sin(an+bn+n));
 	}
-cxt.closePath()
+cxt.closePath();
 cxt.stroke();
 }
-n=step+n
+n=step+n;
 if (n>2*pi) {n=n-2*pi}
 setTimeout("draw()",15);
 }
-window.onload=draw
+window.onload=draw;
 
 //这是使图层移动的函数
 function move_layer(){

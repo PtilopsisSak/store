@@ -1,0 +1,42 @@
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="Layer1" style="left: 30px;top:30px;height: 300px;width: 300px;position: absolute;">
+    <canvas id="myCanvas" width="300" height="300" ></canvas>
+</div>
+
+<script>
+    var c=document.getElementById("myCanvas");
+    var ctx=c.getContext("2d");
+
+    function drawArrow(fromx, fromy, tox, toy,lw,hlen,color) {
+        var dx = tox - fromx;
+        var dy = toy - fromy;
+        var angle = Math.atan2(dy, dx);
+        ctx.fillStyle=color;
+        ctx.strokeStyle=color;
+        ctx.lineCap = "round";
+        ctx.lineWidth = lw;
+        ctx.beginPath();
+        ctx.moveTo(fromx, fromy);
+        ctx.lineTo(tox, toy);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(tox, toy);
+        ctx.lineTo(tox - hlen * Math.cos(angle - Math.PI / 6), toy - hlen * Math.sin(angle - Math.PI / 6));
+        ctx.lineTo(tox - hlen * Math.cos(angle)/2, toy - hlen * Math.sin(angle)/2);
+        ctx.lineTo(tox - hlen * Math.cos(angle + Math.PI / 6), toy - hlen * Math.sin(angle + Math.PI / 6));
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+    }
+    document.addEventListener('click', function (e) {
+        drawArrow(200,200,100,100,5,4,'#66CCFF');
+    });
+
+</script>
+</body>
+</html>

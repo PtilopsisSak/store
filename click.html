@@ -1,0 +1,65 @@
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>点击烟花效果</title>
+</head>
+<body>
+<div id="Layer1" style="left: 30px;top:30px;height: 300px;width: 300px;position: absolute;">
+    <canvas id="myCanvas" width="300" height="300" ></canvas>
+</div>
+<script>
+    var c=document.getElementById("myCanvas");
+    var cxt=c.getContext("2d");
+    cxt.lineWidth=4;
+    cxt.lineJoin="round";
+    var x=150;
+    var y=150;
+    var maxlen=150;
+    var n = 30;
+    var changes1=[0.1,1,3,5,7,5,3,1,0.5];
+    var changes=[];
+    var color=["#66CCFF","#0000FF","#FF00FF",'#1abc9c','#1abc9c','#3498db','#9b59b6','#34495e','#16a085','#27ae60','#2980b9','#8e44ad','#2c3e50','#f1c40f','#e67e22','#e74c3c','#95a5a6','#f39c12','#d35400','#c0392b','#bdc3c7','#7f8c8d'];
+    for (var i=0;i<11;i++){
+        changes[i]=changes1[i]/20
+    }
+    var times=8;
+    var curtimes=0;
+    var curangle=[];
+    var curlen=[];
+    var dx=0,sx= 0,dxx=0;
+    function draw() {
+        //
+        cxt.clearRect(0,0,300,300);
+        if (curtimes==0){
+            for (i=0 ;i<n;i++){
+                curangle[i]=Math.random()*2*Math.PI;
+                curlen[i]=Math.ceil(Math.random()*maxlen)
+            }
+        }
+        for (i=0;i<n;i++) {
+            dx=curlen[i]*changes[curtimes];
+            sx=curlen[i]*curtimes/times;
+            dxx=dx+sx;
+            cxt.beginPath();
+            cxt.moveTo(x+Math.cos(curangle[i])*dxx,x+Math.sin(curangle[i])*(dxx));
+            cxt.lineTo(x+Math.cos(curangle[i])*(sx-dx),x+Math.sin(curangle[i])*(sx-dx));
+            cxt.stroke();
+        }
+        if (curtimes==times) {
+            curtimes=0;
+            setTimeout("cxtclear()",20);
+        } else{
+            curtimes++;
+            setTimeout("draw()",20);
+        }
+    }
+    function cxtclear(){cxt.clearRect(0,0,300,300)}
+    document.addEventListener('click', function (e) {
+        Layer1.style.left= e.pageX-x;
+        Layer1.style.top=e.pageY-y;
+        cxt.strokeStyle=color[Math.ceil(Math.random()*21)-1];
+        draw();
+    });
+</script>
+</body>
+</html>
