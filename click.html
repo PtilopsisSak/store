@@ -4,32 +4,41 @@
     <title>点击烟花效果</title>
 </head>
 <body>
-<div id="Layer1" style="left: 30px;top:30px;height: 300px;width: 300px;position: absolute;">
-    <canvas id="myCanvas" width="300" height="300" ></canvas>
+<div id="Layer1" style="left: 30px;top:30px;height: auto;width: auto;position: absolute;z-index:-3">
+    <canvas id="myCanvas" width="400" height="400" ></canvas>
 </div>
+<div id="Layer2" style="left: 30px;top:30px;height: auto;width: auto;position: absolute;z-index:-4">
+    <canvas id="Canvas1" width="300" height="300" ></canvas>
+</div>
+
 <script>
-    var c=document.getElementById("myCanvas");
-    var cxt=c.getContext("2d");
-    cxt.lineWidth=4;
-    cxt.lineJoin="round";
+    var ai=false
     var x=150;
-    var y=150;
-    var maxlen=150;
+    var maxlen=x;
     var n = 30;
     var changes1=[0.1,1,3,5,7,5,3,1,0.5];
     var changes=[];
     var color=["#66CCFF","#0000FF","#FF00FF",'#1abc9c','#1abc9c','#3498db','#9b59b6','#34495e','#16a085','#27ae60','#2980b9','#8e44ad','#2c3e50','#f1c40f','#e67e22','#e74c3c','#95a5a6','#f39c12','#d35400','#c0392b','#bdc3c7','#7f8c8d'];
     for (var i=0;i<11;i++){
-        changes[i]=changes1[i]/20
+        changes[i]=changes1[i]/17
     }
+    var timeout=30;
     var times=8;
-    var curtimes=0;
-    var curangle=[];
-    var curlen=[];
-    var dx=0,sx= 0,dxx=0;
+    var curtimes=0,curtimes1=0;
+    var curangle=[],curangle1=[];
+    var curlen=[],curlen1=[];
+    var dx=0,sx= 0,dxx= 0,dx1,sx1;
+    myCanvas.width  = 2*x;
+    myCanvas.height = 2*x;
+    var c=document.getElementById("myCanvas");
+    var cxt=c.getContext("2d");
+    cxt.lineWidth=4;
+    cxt.lineJoin="round";
+    cxt.lineCap="round";
+    //
     function draw() {
         //
-        cxt.clearRect(0,0,300,300);
+        cxt.clearRect(0,0,2*x,2*x);
         if (curtimes==0){
             for (i=0 ;i<n;i++){
                 curangle[i]=Math.random()*2*Math.PI;
@@ -47,19 +56,94 @@
         }
         if (curtimes==times) {
             curtimes=0;
-            setTimeout("cxtclear()",20);
+            if (ai){
+                setTimeout("rnd()",timeout);
+            }else{
+                setTimeout("cxtclear()",timeout)
+            }
         } else{
             curtimes++;
-            setTimeout("draw()",20);
+            setTimeout("draw()",timeout);
         }
     }
-    function cxtclear(){cxt.clearRect(0,0,300,300)}
+    function cxtclear(){cxt.clearRect(0,0,2*x,2*x)}
     document.addEventListener('click', function (e) {
+        ai =false
         Layer1.style.left= e.pageX-x;
-        Layer1.style.top=e.pageY-y;
-        cxt.strokeStyle=color[Math.ceil(Math.random()*21)-1];
+        Layer1.style.top=e.pageY-x;
+        cxt.strokeStyle=color[Math.floor(Math.random()*22)];
         draw();
     });
+    function refresh(a){
+        x=a;
+        maxlen=x;
+        myCanvas.width  = 2*x;
+        myCanvas.height = 2*x;
+        cxt.lineWidth=4;
+        cxt.lineJoin="round";
+        cxt.lineCap="round";
+        curtimes=0
+    }
+    function rnd(){
+        cxt.clearRect(0,0,2*x,2*x)
+        Layer1.style.left= Math.floor(Math.random()*(window.innerWidth-x*2));
+        Layer1.style.top= Math.floor(Math.random()*(window.innerHeight-x*2));
+        setTimeout("draw()",Math.floor(Math.random()*60+20));
+        cxt.strokeStyle=color[Math.floor(Math.random()*22)];
+    }
+    function auto() {
+        if (ai) {ai=false}else{ai=true;
+            draw();
+            setTimeout("draw1()",timeout*4);
+        }
+    }
+    //------------------------------------------------
+    Canvas1.width  = 2*x;
+    Canvas1.height = 2*x;
+    var c1=document.getElementById("Canvas1");
+    var cxtt=c1.getContext("2d");
+    cxtt.lineWidth=4;
+    cxtt.lineJoin="round";
+    cxtt.lineCap="round";
+    var j
+    function draw1() {
+        //
+        cxtt.clearRect(0,0,2*x,2*x);
+        if (curtimes1==0){
+            for (j=0 ;j<n;j++){
+                curangle1[j]=Math.random()*2*Math.PI;
+                curlen1[j]=Math.ceil(Math.random()*maxlen)
+            }
+        }
+        for (j=0;j<n;j++) {
+            dx1=curlen1[j]*changes[curtimes1];
+            sx1=curlen1[j]*curtimes1/times;
+            cxtt.beginPath();
+            cxtt.moveTo(x+Math.cos(curangle1[j])*(dx1+sx1),x+Math.sin(curangle1[j])*(dx1+sx1));
+            cxtt.lineTo(x+Math.cos(curangle1[j])*(sx1-dx1),x+Math.sin(curangle1[j])*(sx1-dx1));
+            cxtt.stroke();
+        }
+        if (curtimes1==times) {
+            curtimes1=0;
+            if (ai){
+                setTimeout("rnd1()",timeout+50);
+            }else{
+                setTimeout("cxtclear1()",timeout)
+            }
+        } else{
+            curtimes1++;
+            setTimeout("draw1()",timeout);
+        }
+    }
+    function cxtclear1(){cxtt.clearRect(0,0,2*x,2*x)}
+    function rnd1(){
+        cxtt.clearRect(0,0,2*x,2*x)
+        Layer2.style.left= Math.floor(Math.random()*(window.innerWidth-x*2));
+        Layer2.style.top= Math.floor(Math.random()*(window.innerHeight-x*2));
+        setTimeout("draw1()",Math.floor(Math.random()*60+20));
+        cxtt.strokeStyle=color[Math.floor(Math.random()*22)];
+    }
+
 </script>
 </body>
 </html>
