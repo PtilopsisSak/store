@@ -2,8 +2,21 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>点击烟花效果</title>
+    <style>
+        input {
+            font: 100 15px Arial;
+        }
+    </style>
 </head>
 <body>
+<form style="left: 0px;top:0px;height: auto;width: 200px;position: absolute;">
+    <fieldset>
+        <legend>Data</legend>
+        n=<input type="number" value="30" onchange="if(this.value>=0&&this.value<1000){n=this.value}else{n=30}"/>
+        length=<input type="number" value="150" onchange="refresh(Number(this.value))"/>
+    </fieldset>
+</form>
+
 <div id="Layer1" style="left: 30px;top:30px;height: auto;width: auto;position: absolute;z-index:-3">
     <canvas id="myCanvas" width="400" height="400" ></canvas>
 </div>
@@ -12,7 +25,7 @@
 </div>
 
 <script>
-    var ai=false
+    var ai=false;
     var x=150;
     var maxlen=x;
     var n = 30;
@@ -56,10 +69,10 @@
         }
         if (curtimes==times) {
             curtimes=0;
-            if (ai){
+            if (ai) {
                 setTimeout("rnd()",timeout);
             }else{
-                setTimeout("cxtclear()",timeout)
+                setTimeout("cxtclear()",timeout);
             }
         } else{
             curtimes++;
@@ -75,6 +88,8 @@
         draw();
     });
     function refresh(a){
+        //a=Number(prompt("大小?", "150"));
+        if (a <= 0 ||a>500 ) {a=150}
         x=a;
         maxlen=x;
         myCanvas.width  = 2*x;
@@ -85,7 +100,7 @@
         curtimes=0
     }
     function rnd(){
-        cxt.clearRect(0,0,2*x,2*x)
+        cxt.clearRect(0,0,2*x,2*x);
         Layer1.style.left= Math.floor(Math.random()*(window.innerWidth-x*2));
         Layer1.style.top= Math.floor(Math.random()*(window.innerHeight-x*2));
         setTimeout("draw()",Math.floor(Math.random()*60+20));
@@ -105,7 +120,7 @@
     cxtt.lineWidth=4;
     cxtt.lineJoin="round";
     cxtt.lineCap="round";
-    var j
+    var j;
     function draw1() {
         //
         cxtt.clearRect(0,0,2*x,2*x);
