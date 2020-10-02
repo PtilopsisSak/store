@@ -1,0 +1,66 @@
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>325</title>
+</head>
+<body>
+<script>
+    var day="";
+    var month="";
+    var ampm="";
+    var ampmhour="";
+    var myweekday="";
+    var year="";
+    var hh;
+    mydate=new Date();
+    myweekday=mydate.getDay();
+    mymonth=mydate.getMonth()+1;
+    myday= mydate.getDate();
+    myyear= mydate.getYear();
+    year=(myyear > 200) ? myyear : 1900 + myyear;
+    hh=mydate.getHours();
+    document.write("<font color=#FFFFFF>"+year+"年"+mymonth+"月"+myday+"日 </font>");
+</script>
+<script type="text/javascript">
+    var d = new Date();
+    var timenow=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds();
+    document.write("<font color=#000000>"+timenow+"</font>");
+</script>
+<script>
+    var size=[3,5];
+    var pixel=[
+        1,1,1,
+        1,0,1,
+        1,0,1,
+        1,0,1,
+        1,1,1,
+
+        0,1,0,
+        1,1,0,
+        0,1,0,
+        0,1,0,
+        1,1,1,
+
+        1,1,1,
+        0,0,1,
+        1,1,1,
+        1,0,0,
+        1,1,1,
+
+        1,1,1,
+        0,0,1,
+        1,1,1,
+        0,0,1,
+        1,1,1,
+
+        1,0,1,
+        1,0,1,
+        1,1,1,
+        0,0,1,
+        0,0,1
+    ]
+
+</script>
+
+</body>
+</html>
